@@ -1,4 +1,4 @@
-# zipkin-instrumetation-got
+# zipkin-instrumentation-got
 
 This library will wrap the [got client](https://www.npmjs.com/package/got).
 
@@ -7,11 +7,11 @@ This library will wrap the [got client](https://www.npmjs.com/package/got).
 ```javascript
 const {Tracer} = require('zipkin');
 const got = require('got');
-const zipkinClient = require('zipkin-instrumentation-got');
+const wrapGot = require('zipkin-instrumentation-got');
 
 const tracer = new Tracer({ctxImpl, recorder}); // configure your tracer properly here
 
-const zipkinGot = zipkinClient(tracer, got);
+const zipkinGot = wrapGot(got, {tracer, remoteServiceName: 'todomvc'});
 
 // Your application code here
 zipkinGot('todomvc.com')
