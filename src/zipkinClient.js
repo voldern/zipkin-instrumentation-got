@@ -3,9 +3,7 @@ const {Instrumentation} = require('zipkin');
 module.exports = function zipkinClient(got, {tracer, serviceName = 'unknown', remoteServiceName}) {
   const instrumentation = new Instrumentation.HttpClient({tracer, serviceName, remoteServiceName});
 
-  function zipkinGot(url, opts) {
-    opts = opts || {}; // eslint-disable-line no-param-reassign
-
+  function zipkinGot(url, opts = {}) {
     return new Promise((resolve, reject) => {
       tracer.scoped(() => {
         const method = opts.method || 'GET';
@@ -27,9 +25,7 @@ module.exports = function zipkinClient(got, {tracer, serviceName = 'unknown', re
     });
   }
 
-  zipkinGot.stream = function zipkinGotStream(url, opts) {
-    opts = opts || {}; // eslint-disable-line no-param-reassign
-
+  zipkinGot.stream = function zipkinGotStream(url, opts = {}) {
     let traceId;
     let zipkinOpts;
     tracer.scoped(() => {
